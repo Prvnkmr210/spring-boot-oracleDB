@@ -3,6 +3,7 @@ package com.jdbc.demo.daoImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,15 @@ import com.jdbc.demo.models.Person;
 public class PersonDAOImpl implements PersonDAO{
 	
 	@Autowired
+	@Qualifier("Oracle_jdbcTemplate")
 	JdbcTemplate jdbc;
+	// Error: expected single matching bean but found 2: OracleDB_jdbcTemplate,MySql_jdbcTemplate
+	
+	@Override
+	public void setJdbc(JdbcTemplate jdbc) {
+		this.jdbc = jdbc;
+		
+	}
 	
 //	@PostConstruct
 //	  private void postConstruct() {
@@ -45,7 +54,7 @@ public class PersonDAOImpl implements PersonDAO{
 	public Person getEmployeeById(String empId) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}	
 	
 
 }

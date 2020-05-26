@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.jdbc.demo.dao.PersonDAO;
 import com.jdbc.demo.daoImpl.PersonDAOImplSelfDI;
+import com.jdbc.demo.daoImpl.PersonDAOImplSelfDIMySQL;
 
 @Configuration
 public class ServiceConfiguration {
@@ -19,18 +20,41 @@ public class ServiceConfiguration {
 		dataSourcebuilder.url("jdbc:oracle:thin:@//localhost:1521/orcl");
 		dataSourcebuilder.username("hr");
 		dataSourcebuilder.password("hr12");
+		dataSourcebuilder.driverClassName("oracle.jdbc.OracleDriver");
 		return dataSourcebuilder.build();
 	}
 	
-	@Bean (name = "jdbcTemplate")
-	public JdbcTemplate getJdbc() {
+	@Bean (name = "Oracle_jdbcTemplate")
+	public JdbcTemplate getOracleJdbc() {
 		return new JdbcTemplate(getOracleDataSource());
 	}
 	
 	@Bean (name = "PersonDAOSelfDI")
-	public PersonDAOImplSelfDI getPersonDAO() {
-		PersonDAOImplSelfDI persondao = new PersonDAOImplSelfDI();
-		persondao.setJdbc(getJdbc());
+	public PersonDAO getPersonDAOSelfDI() {
+		PersonDAO persondao = new PersonDAOImplSelfDI();
+		persondao.setJdbc(getOracleJdbc());
+		return persondao;
+	}
+	
+	@Bean (name = "MySQLDataSource")
+	public DataSource getMySQLDataSource(){
+		DataSourceBuilder dataSourcebuilder = DataSourceBuilder.create();
+		dataSourcebuilder.url("jdbc:mysql://localhost:3306/testmysqldb");
+		dataSourcebuilder.username("root");
+		dataSourcebuilder.password("leetcode@3");
+		dataSourcebuilder.driverClassName("com.mysql.jdbc.Driver");
+		return dataSourcebuilder.build();
+	}
+	
+	@Bean (name = "MySql_jdbcTemplate")
+	public JdbcTemplate getMySQLJdbc() {
+		return new JdbcTemplate(getMySQLDataSource());
+	}
+	
+	@Bean (name = "PersonDAOSelfDIMySQL")
+	public PersonDAO getPersonDAOSelfDIMySQL() {
+		PersonDAO persondao = new PersonDAOImplSelfDIMySQL();
+		persondao.setJdbc(getMySQLJdbc());
 		return persondao;
 	}
 

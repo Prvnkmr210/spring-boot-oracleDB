@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jdbc.demo.dao.PersonDAO;
 
 @RestController
-public class PersonControllerSelfDI {
+public class PersonControllerSelfDIMySql {
 	
 	@Autowired
-	@Qualifier("PersonDAOSelfDI")
+	@Qualifier("PersonDAOSelfDIMySQL")
 	PersonDAO persondao;
 	
 	
-	@RequestMapping(path = "/welcome", method = RequestMethod.GET)
+	@RequestMapping(path = "/welcomeSQL", method = RequestMethod.GET)
 	public String greet() {
 		return "Hello, How can i help you";
 	}
 	
-	@RequestMapping(path = "/savePerson", method = RequestMethod.GET)
+	@RequestMapping(path = "/savePersonSQL", method = RequestMethod.GET)
 	public String insertPerson() {
 		try {
 			persondao.insertEmployee();
@@ -31,6 +31,5 @@ public class PersonControllerSelfDI {
 			return "Failed " + e.getMessage();
 		}
 	}
-
 
 }
