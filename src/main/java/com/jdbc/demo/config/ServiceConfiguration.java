@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.jdbc.demo.dao.PersonDAO;
@@ -56,6 +57,22 @@ public class ServiceConfiguration {
 		PersonDAO persondao = new PersonDAOImplSelfDIMySQL();
 		persondao.setJdbc(getMySQLJdbc());
 		return persondao;
+	}
+	
+	@Bean (name = "H2inMemDataSource")
+	@Primary
+	public DataSource getH2inMemDataSource(){
+		DataSourceBuilder dataSourcebuilder = DataSourceBuilder.create();
+		dataSourcebuilder.url("jdbc:h2:mem:testdb");
+		dataSourcebuilder.username("sa");
+		dataSourcebuilder.password("");
+		dataSourcebuilder.driverClassName("org.h2.Driver");
+		return dataSourcebuilder.build();
+	}
+	
+	@Bean (name = "H2DB_jdbcTemplate")
+	public JdbcTemplate getH2jdbc() {
+		return new JdbcTemplate(getH2inMemDataSource());
 	}
 
 }
