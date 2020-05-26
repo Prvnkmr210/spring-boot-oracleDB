@@ -63,7 +63,10 @@ public class ServiceConfiguration {
 	@Primary
 	public DataSource getH2inMemDataSource(){
 		DataSourceBuilder dataSourcebuilder = DataSourceBuilder.create();
-		dataSourcebuilder.url("jdbc:h2:mem:testdb");
+		//dataSourcebuilder.url("jdbc:h2:mem:testdb");
+		dataSourcebuilder.url("jdbc:h2:file:C:/data/newh2file;MV_STORE=FALSE");
+		// http://www.h2database.com/html/main.html
+		//dataSourcebuilder.url("jdbc:h2:C:/data/h2file");
 		dataSourcebuilder.username("sa");
 		dataSourcebuilder.password("");
 		dataSourcebuilder.driverClassName("org.h2.Driver");
